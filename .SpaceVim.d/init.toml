@@ -1,0 +1,5 @@
+[[layers]]
+  name = "lang#javascript"
+
+[[layers]]
+  name = "test"
