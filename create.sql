@@ -1,8 +1,8 @@
-drop schema cccat15 cascade;
+drop schema test_db cascade;
 
-create schema cccat15;
+create schema test_db;
 
-create table cccat15.account (
+create table test_db.account (
 	account_id uuid primary key,
 	name text not null,
 	email text not null,

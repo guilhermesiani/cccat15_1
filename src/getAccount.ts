@@ -6,8 +6,8 @@ export async function getAccount (input: any): Promise<any> {
 	const connection = pgp()("postgres://admin:root@localhost:5432/test_db");
 	try {
 		const id = crypto.randomUUID();
-
-		return await connection.query("select * from cccat15.account where account_id = $1", [input.account_id]);
+    const result = await connection.query("select * from account where account_id = $1", [input.accountId])
+    return result.length > 0 ? result[0] : null;
 	} finally {
 		await connection.$pool.end();
 	}
