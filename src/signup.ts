@@ -10,6 +10,7 @@ export async function signup (input: any): Promise<any> {
 		if (await alreadyExists(connection, input.email)) return -4;
     if (invalidName(input.name)) return -3;
     if (invalidCPF(input.cpf)) return -1;
+    if (invalidCarPlate(input.carPlate)) return -5;
     if (!input.isDriver) {
       return await createPassenger(connection, id, input);
     }
@@ -32,7 +33,7 @@ function invalidCPF(cpf: string) {
 }
 
 function invalidCarPlate(carPlate: string) {
-  return !carPlate.match(/[A-Z]{3}[0-9]{4}/);
+  return carPlate && !carPlate.match(/[A-Z]{3}[0-9]{4}/);
 }
 
 async function alreadyExists(connection: any, email: string) {
@@ -49,7 +50,6 @@ async function createPassenger(connection: any, id: any, input: any) {
 }
 
 async function createDriver(connection: any, id: any, input: any) {
-  if (invalidCarPlate(input.carPlate)) return -5;
   await connection.query("insert into account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ($1, $2, $3, $4, $5, $6, $7)", [id, input.name, input.email, input.cpf, input.carPlate, !!input.isPassenger, !!input.isDriver]);
   
   const obj = {
