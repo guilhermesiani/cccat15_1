@@ -52,6 +52,25 @@ test("Create a valid passenger account", async function () {
   });
 });
 
+test("Create duplicated email account should return error", async function () {
+	await axios.post("http://localhost:3000/accounts", {
+    name: "Guilherme Siani",
+    email: "user@domain.com",
+    cpf: "012.051.530-04",
+    isDriver: true,
+    carPlate: "ASD9456"
+	});
+	const createResponse = await axios.post("http://localhost:3000/accounts", {
+    name: "Carlos Camargo",
+    email: "user@domain.com",
+    cpf: "012.051.530-05",
+    isDriver: true,
+    carPlate: "ASD9456"
+	});
+  expect(createResponse.status).toBe(200);
+  expect(createResponse.data).toBe(-4);
+});
+
 test("Create account with invalid car plate should return error", async function () {
 	const createResponse = await axios.post("http://localhost:3000/accounts", {
     name: "Guilherme Siani",
