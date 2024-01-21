@@ -4,13 +4,13 @@ import { validateCpf } from "./validateCpf";
 
 export async function signup (input: any): Promise<any> {
   const connection = pgp()("postgres://admin:root@localhost:5432/test_db");
+  const id = crypto.randomUUID();
+  if (invalidEmail(input.email)) return -2;
+  if (invalidName(input.name)) return -3;
+  if (invalidCPF(input.cpf)) return -1;
+  if (invalidCarPlate(input.carPlate)) return -5;
 	try {
-		const id = crypto.randomUUID();
-    if (invalidEmail(input.email)) return -2;
 		if (await duplicatedEmail(connection, input.email)) return -4;
-    if (invalidName(input.name)) return -3;
-    if (invalidCPF(input.cpf)) return -1;
-    if (invalidCarPlate(input.carPlate)) return -5;
     return await saveAccount(connection, id, input);
 	} finally {
 		await connection.$pool.end();

@@ -63,7 +63,7 @@ test("Create duplicated email account should return error", async function () {
 	const createResponse = await axios.post("http://localhost:3000/accounts", {
     name: "Carlos Camargo",
     email: "user@domain.com",
-    cpf: "012.051.530-05",
+    cpf: "012.051.530-04",
     isDriver: true,
     carPlate: "ASD9456"
 	});
