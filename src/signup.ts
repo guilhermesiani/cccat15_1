@@ -11,10 +11,7 @@ export async function signup (input: any): Promise<any> {
     if (invalidName(input.name)) return -3;
     if (invalidCPF(input.cpf)) return -1;
     if (invalidCarPlate(input.carPlate)) return -5;
-    if (!input.isDriver) {
-      return await createPassenger(connection, id, input);
-    }
-    return await createDriver(connection, id, input);
+    return await saveAccount(connection, id, input);
 	} finally {
 		await connection.$pool.end();
 	}
@@ -41,17 +38,8 @@ async function alreadyExists(connection: any, email: string) {
   return alreadyExists;
 }
 
-async function createPassenger(connection: any, id: any, input: any) {
+async function saveAccount(connection: any, id: any, input: any) {
   await connection.query("insert into account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ($1, $2, $3, $4, $5, $6, $7)", [id, input.name, input.email, input.cpf, input.carPlate, !!input.isPassenger, !!input.isDriver]);
-  const obj = {
-    accountId: id
-  };
-  return obj;
-}
-
-async function createDriver(connection: any, id: any, input: any) {
-  await connection.query("insert into account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ($1, $2, $3, $4, $5, $6, $7)", [id, input.name, input.email, input.cpf, input.carPlate, !!input.isPassenger, !!input.isDriver]);
-  
   const obj = {
     accountId: id
   };
