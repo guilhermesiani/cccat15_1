@@ -7,7 +7,7 @@ export async function signup (input: any): Promise<any> {
 	try {
 		const id = crypto.randomUUID();
     if (invalidEmail(input.email)) return -2;
-		if (await alreadyExists(connection, input.email)) return -4;
+		if (await duplicatedEmail(connection, input.email)) return -4;
     if (invalidName(input.name)) return -3;
     if (invalidCPF(input.cpf)) return -1;
     if (invalidCarPlate(input.carPlate)) return -5;
@@ -33,9 +33,9 @@ function invalidCarPlate(carPlate: string) {
   return carPlate && !carPlate.match(/[A-Z]{3}[0-9]{4}/);
 }
 
-async function alreadyExists(connection: any, email: string) {
-  const [alreadyExists] = await connection.query("select * from account where email = $1", [email]);
-  return alreadyExists;
+async function duplicatedEmail(connection: any, email: string) {
+  const [duplicatedEmail] = await connection.query("select * from account where email = $1", [email]);
+  return duplicatedEmail;
 }
 
 async function saveAccount(connection: any, id: any, input: any) {
