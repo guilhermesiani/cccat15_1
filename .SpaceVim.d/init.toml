@@ -3,3 +3,7 @@
 
 [[layers]]
   name = "test"
+
+[[layers]]
+  name = "gtags"
+  gtagslabel = "ctags"
