@@ -2,10 +2,8 @@ import pgp from "pg-promise";
 import Signup from '../src/Signup';
 import GetAccount from '../src/GetAccount';
 import AccountDAODatabase from '../src/AccountDAODatabase';
-import AccountDAO from '../src/AccountDAO';
 
-let accountDAO: AccountDAO;
-accountDAO = new AccountDAODatabase();
+const accountDAO = new AccountDAODatabase();
 const signup = new Signup(accountDAO);
 const getAccount = new GetAccount(accountDAO);
 
