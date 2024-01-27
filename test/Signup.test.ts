@@ -66,56 +66,56 @@ test("Create duplicated email account should return error", async function () {
     isDriver: true,
     carPlate: "ASD9456"
 	});
-  const result = await signup.execute({
+  const input = {
     name: "Carlos Camargo",
     email: "user@domain.com",
     cpf: "012.051.530-04",
     isDriver: true,
     carPlate: "ASD9456"
-	});
-  expect(result).toBe(-4);
+	};
+  await expect(() => signup.execute(input)).rejects.toThrow(new Error("email already exists"));
 });
 
 test("Create account with invalid car plate should return error", async function () {
-  const result = await signup.execute({
+  const input = {
     name: "Guilherme Siani",
     email: "user@domain.com",
     cpf: "012.051.530-04",
     isDriver: true,
     carPlate: "XXXX"
-	});
-  expect(result).toBe(-5);
+	};
+  await expect(() => signup.execute(input)).rejects.toThrow(new Error("invalid car plate"));
 });
 
 test("Create account with invalid name should return error", async function () {
-  const result = await signup.execute({
+  const input = {
     name: "INVALID",
     email: "user@domain.com",
     cpf: "012.051.530-04",
     isDriver: true,
     carPlate: "ASD9456"
-	});
-  expect(result).toBe(-3);
+	};
+  await expect(() => signup.execute(input)).rejects.toThrow(new Error("invalid name"));
 });
 
 test("Create account with invalid email should return error", async function () {
-  const result = await signup.execute({
+  const input = {
     name: "Guilherme Siani",
     email: "INVALID",
     cpf: "012.051.530-04",
     isDriver: true,
     carPlate: "ASD9456"
-	});
-  expect(result).toBe(-2);
+	};
+  await expect(() => signup.execute(input)).rejects.toThrow(new Error("invalid email"));
 });
 
 test("Create account with invalid cpf should return error", async function () {
-  const result = await signup.execute({
+  const input = {
     name: "Guilherme Siani",
     email: "user@domain.com",
     cpf: "INVALID",
     isDriver: true,
     carPlate: "ASD9456"
-	});
-  expect(result).toBe(-1);
+	};
+  await expect(() => signup.execute(input)).rejects.toThrow(new Error("invalid cpf"));
 });
