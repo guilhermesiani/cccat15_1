@@ -19,6 +19,8 @@ export default class RequestRide {
       ...input
     };
     await this.rideDAO.save(obj);
-    return obj;
+    return {
+      rideId: obj.rideId,
+    };
   }
 }

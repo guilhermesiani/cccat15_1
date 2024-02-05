@@ -3,6 +3,16 @@ import crypto from "crypto";
 import RideDAO from "./RideDAO"
 
 export default class RideDAODatabase implements RideDAO {
+  async getById(rideId: string): Promise<any> {
+    const connection = pgp()("postgres://admin:root@localhost:5432/test_db");
+    try {
+      const result = await connection.query("select * from ride where ride_id = $1", [rideId])
+      return result.length > 0 ? result[0] : null;
+    } finally {
+      await connection.$pool.end();
+    }
+  }
+
   async getRequestedByPassenger(passengerId: string): Promise<any> {
     const connection = pgp()("postgres://admin:root@localhost:5432/test_db");
     try {
